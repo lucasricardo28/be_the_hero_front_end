@@ -1,9 +1,11 @@
 import React from 'react';
-import Login from './pages/Login'
+import './global.css';
+
+import Routes from './Routes';
 
 function App() {
   return (
-    <Login/>
+    <Routes/>
   );
 }
 
