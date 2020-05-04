@@ -2,7 +2,8 @@
 	width: 100%;
 	max-width: 1180px;
 	height: 100vh;
-	margin: 43px auto
+	margin: 43px auto;
+	padding: 30px
 }
 
 .profile-container header{

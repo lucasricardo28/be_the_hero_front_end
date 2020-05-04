@@ -1,11 +1,49 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import apiService from '../../service/apiService';
 
 import logo from '../../assets/logo.svg';
 import './style.css';
 
+
 export default function NewIncident(){
+	
+	const [ title, setTitle ] = useState('');
+	const [ description, setDescription ] = useState('');
+	const [ value , setValue ] = useState('');
+	const history = useHistory();
+
+	async function submitNewIncident(e){
+		e.preventDefault();
+
+		if(!title){
+			alert("Informe um titulo");
+			return false;
+		}
+
+		if(!description){
+			alert("Informe uma descricao");
+			return false;
+		}
+
+		if(!value){
+			alert("Informe um valor");
+			return false;
+		}
+
+		let data = { title, description, value}
+
+		try{
+			await apiService.post('incidents',data);
+			alert('um novo item foi adicionado');
+			history.push('/profile');
+
+		}catch(error){
+			alert('error ao adicionar incident');
+		}
+	}
+
 	return (
 		<div className="incident-container">
 			<div className="content">
@@ -18,11 +56,20 @@ export default function NewIncident(){
 						Voltar pra home.
 					</Link>
 				</section>
-				<form>
-					<input placeholder="Titulo do caso" />
-					<textarea placeholder="Descrição" >
+				<form onSubmit={submitNewIncident} >
+					<input 
+						placeholder="Titulo do caso"
+						value ={ title }
+						onChange ={ e => setTitle(e.target.value) }/>
+					<textarea 
+						placeholder="Descrição" 
+						value={description}
+						onChange={ e => setDescription(e.target.value)}>
 					</textarea>
-					<input placeholder="Valor em reais" />
+					<input 
+						placeholder="Valor em reais"
+						value={value}
+						onChange={e => setValue(e.target.value)} />
 					<button className="button_primary" type="submit">Cadastrar</button>
 				</form>
 			</div> 	
